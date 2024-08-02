@@ -17,7 +17,22 @@ function Movies() {
     { title: 'Movie3', url: 'https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68', },
     { title: 'Movie4', url: 'https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68', },
     { title: 'Movie5', url: 'https://fastly.picsum.photos/id/10/2500/1667.jpg?hmac=J04WWC_ebchx3WwzbM-Z4_KC_LeLBWr5LZMaAkWkF68', },
+
   ])
+
+  const[pageNo,setPageNo]=useState(1);
+  const handleNext=()=>{
+    setPageNo(pageNo+1);
+  }
+
+  const handlePrev=()=>{
+    if(pageNo==1){
+      setPageNo(1);
+    }
+    else{
+    setPageNo(pageNo-1);
+    }
+  }
 
   return <>
   <div className='text-2xl font-bold text-center m-4'>
@@ -34,6 +49,17 @@ function Movies() {
         })}
       </div>
   </div>
+  {/* for pagination */}
+  <div className='bg-gray-300 p-4 flex justify-center gap-2 w-full mt-6 '>
+      <div className="px-6" onClick={handlePrev} >
+        <i class="fa-solid fa-arrow-left"></i>
+      </div>
+      <div>{pageNo}</div>
+
+      <div onClick={handleNext} className='px-6'>
+        <i class="fa-solid fa-arrow-right"></i>
+      </div>
+      </div>
   </>
 }
 const home = () => {
