@@ -1,4 +1,6 @@
 import React,{useState} from 'react'
+import Paginations from './Paginations.jsx';
+import MovieCard from './MovieCard.jsx';
 
 function Banner(){
   return (
@@ -38,28 +40,16 @@ function Movies() {
   <div className='text-2xl font-bold text-center m-4'>
       <h2 >Trending Movies</h2>
       <div className='flex justify-evenly flex-wrap gap-6' >
-        {movies.map( (movie,index) =>{
-          return (
-            <div className='h-[40vh] w-[200px] bg-center bg-cover rounded-xl flex flex-col justify-between item-end hover:scale-110 duration-200 ' style={{backgroundImage:`url(${movie.url})`}} key={index}>
-              <div className='text-white w-full text-center pl-2 rounded-lg bg-gray-900/50'>{movie.title}</div>
+        {movies.map( (movieObj,index) => <MovieCard {...movieObj} index={index}/> )}
 
-            </div>
-
-          )
-        })}
+        
+          
       </div>
   </div>
-  {/* for pagination */}
-  <div className='bg-gray-300 p-4 flex justify-center gap-2 w-full mt-6 '>
-      <div className="px-6" onClick={handlePrev} >
-        <i class="fa-solid fa-arrow-left"></i>
-      </div>
-      <div>{pageNo}</div>
 
-      <div onClick={handleNext} className='px-6'>
-        <i class="fa-solid fa-arrow-right"></i>
-      </div>
-      </div>
+  {/* pagination */}
+  <Paginations handleNext={handleNext} handlePrev={handlePrev} pageNo={pageNo} />
+  
   </>
 }
 const home = () => {
