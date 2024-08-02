@@ -6,14 +6,14 @@ import '../App.css'
 const Navbar = () => {
   return (
     <div  className='flex space-x-8 items-center pl-3 py-4 '>
-    <Link to='/'>
+    <Link to='/' className='text-blue-500 text-3xl font-bold'>
       <img className="w-[50px] " src={Logo} />
     
     </Link>
-    <Link to='/'> to go to home page/
+    <Link to='/' className='text-blue-500 text-3xl font-bold'> home 
     </Link>
 
-    <Link to='/watchlist'> to go to watchlist page
+    <Link to='/watchlist' className='text-blue-500 text-3xl font-bold'>  watchlist 
     </Link>
     </div>
   )
