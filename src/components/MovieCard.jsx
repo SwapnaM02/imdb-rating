@@ -1,15 +1,15 @@
 import React from 'react'
 
 const MovieCard = (props) => {
-    console.log(props);
+    console.log("in movie card",props);
   return (
     <div className='text-2xl font-bold text-center m-4'>
-      <h2 >Trending Movies</h2>
+      {/* <h2 >Trending Movies</h2> */}
       <div className='flex justify-evenly flex-wrap gap-6' >
         
           
             <div 
-            className='h-[40vh] w-[200px] bg-center bg-cover rounded-xl flex flex-col justify-between item-end hover:scale-110 duration-200 key={props.index}' style={{backgroundImage:`url(${props.url})`}} >
+            className='h-[40vh] w-[200px] bg-center bg-cover rounded-xl flex flex-col justify-between item-end hover:scale-110 duration-200 key={props.index}' style={{backgroundImage:`url(https://image.tmdb.org/t/p/original${props.backdrop_path})`}} >
               <div className='text-white w-full text-center pl-2 rounded-lg bg-gray-900/50'>{props.title}</div>
 
             </div>
@@ -18,7 +18,7 @@ const MovieCard = (props) => {
         
       </div>
   </div>
-  )
+  ) 
 }
 
 export default MovieCard
