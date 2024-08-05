@@ -10,6 +10,7 @@ function Movies() {
   const [movies, setMovies] = useState([])
 
   const[pageNo,setPageNo]=useState(1);
+  const[watchList,setWatchList]=useState([]);
 
   useEffect(() => {
     // Fetch the image from the provided URL
@@ -43,15 +44,35 @@ function Movies() {
     }
   }
 
+  const addToWatchList = function (movieObj) {
+    const updatedMovies=[...watchList,movieObj];
+    setWatchList(updatedMovies);
+  }
+
+  const removeFromWatchList = function (movieObj) {
+    const filteredMovies=watchList.filter((watchListMovie)=>{
+      return movieObj.id!==watchListMovie.id;
+
+      setWatchList(filteredMovies)
+    })
+    
+  }
+
   return <>
   <div className='text-2xl font-bold text-center m-4'>
       <h2 >Trending Movies</h2>
       <div className='flex justify-evenly flex-wrap gap-6' >
-        {movies.map( (movieObj,index) => <MovieCard {...movieObj} index={index}/> )}
+        {movies.map( (movieObj,index) => <MovieCard 
+        movieObj={ movieObj}
+        index={index} 
+        watchList={watchList} 
+        addToWatchList = {addToWatchList} 
+        removeFromWatchList={removeFromWatchList}/> )}
 
         
           
       </div>
+     
   </div>
 
   {/* pagination */}
