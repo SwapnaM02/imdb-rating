@@ -29,6 +29,16 @@ function Movies() {
   }, [pageNo]);
 
 
+  useEffect( () =>{
+    console.log("inside watchlist")
+    const watchListMovies= localStorage.getItem('movies');
+    console.log("watchlist",watchListMovies);
+    if(watchListMovies){
+      setWatchList( JSON.parse(watchListMovies));
+    }
+  },[])
+
+
 
 
   const handleNext=()=>{
@@ -47,14 +57,17 @@ function Movies() {
   const addToWatchList = function (movieObj) {
     const updatedMovies=[...watchList,movieObj];
     setWatchList(updatedMovies);
+    localStorage.setItem('movies',JSON.stringify(updatedMovies));
   }
 
   const removeFromWatchList = function (movieObj) {
     const filteredMovies=watchList.filter((watchListMovie)=>{
       return movieObj.id!==watchListMovie.id;
-
-      setWatchList(filteredMovies)
     })
+
+    setWatchList(filteredMovies);
+    localStorage.setItem('movies',JSON.stringify(filteredMovies));
+  
     
   }
 
