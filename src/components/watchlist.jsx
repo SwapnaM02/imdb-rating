@@ -8,6 +8,7 @@ const getGenreName = genre_id => {
 
 const Watchlist = () => {
   const [watchList, setWatchList] = useState([]);
+  const [searchedStr,setSearch]=useState('');
 
   useEffect(() => {
     let moviesFromLS = localStorage.getItem('movies');
@@ -28,7 +29,15 @@ const Watchlist = () => {
     setWatchList([...sortedOrder]);
   };
 
-  return (
+  return (/** searching feature implementation*/
+    <>
+    <div className='flex justify-center my-5'>
+      <input placeholder='search movies'
+      type='text'
+      value={searchedStr}
+      onChange={(e)=>setSearch(e.target.value)} className='h-8 w-[300px] bg-gray-200 px-4 outline-none border-slate-700'/>
+
+    </div>
     <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
       <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
         <thead>
@@ -58,7 +67,8 @@ const Watchlist = () => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-          {watchList.map((movie) => (
+          {watchList.filter((movie)=>movie.title.toLowerCase().includes(searchedStr.toLowerCase()))
+          .map((movie) => (
             <tr className="hover:bg-gray-50" key={movie.id}>
               <td className="flex items-center px-6 py-4 font-normal text-gray-900">
                 <img className="h-[6rem] w-[10rem] object-fit" src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt={movie.title} />
@@ -76,6 +86,7 @@ const Watchlist = () => {
         </tbody>
       </table>
     </div>
+    </>
   );
 };
 
