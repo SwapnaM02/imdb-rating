@@ -1,6 +1,8 @@
  import React, { useState, useEffect } from 'react';
  import genreids from '../constants';
 
+ const All_GENRES='All genres';
+
 const getGenreName = genre_id => {
   console.log(genreids[genre_id] || 'NA');
   return genreids[genre_id] || 'NA';
@@ -9,6 +11,8 @@ const getGenreName = genre_id => {
 const Watchlist = () => {
   const [watchList, setWatchList] = useState([]);
   const [searchedStr,setSearch]=useState('');
+  const [genreList,setGenreList]=useState([All_GENRES]);
+  const [currGenre,setCurrGenre]=useState(All_GENRES)
 
   useEffect(() => {
     let moviesFromLS = localStorage.getItem('movies');
@@ -16,6 +20,17 @@ const Watchlist = () => {
       setWatchList(JSON.parse(moviesFromLS));
     }
   }, []);
+
+  useEffect(()=>{
+    let tempArr=watchList.map((movie)=>{
+      return getGenreName(movie.genre_ids[0]);
+    })
+
+    let temp=new Set(tempArr);
+    setGenreList([All_GENRES,...temp]);
+
+    console.log('genres present:',tempArr);
+  },[watchList])
 
   const handleDescRatings = () => {
     console.log('Desc sort');
@@ -29,8 +44,25 @@ const Watchlist = () => {
     setWatchList([...sortedOrder]);
   };
 
-  return (/** searching feature implementation*/
+  return (
     <>
+    {/* Genres */}
+    <div className='flex justify-center m-4'>
+        {
+          genreList.map(genre => {
+            return <div className={
+              currGenre === genre
+                ? 'flex justify-center items-center bg-blue-500 h-8 w-[300px] text-white font-bold rounded-xl mx-4 cursor-pointer'
+                : 'flex justify-center items-center bg-gray-500 h-8 w-[300px] text-white font-bold rounded-xl mx-4 cursor-pointer'
+            }
+              onClick={() => setCurrGenre(genre)}>
+              {genre}
+            </div>
+          })
+        }
+      </div>
+
+      {/* searching feature implementation */}
     <div className='flex justify-center my-5'>
       <input placeholder='search movies'
       type='text'
@@ -67,7 +99,16 @@ const Watchlist = () => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-          {watchList.filter((movie)=>movie.title.toLowerCase().includes(searchedStr.toLowerCase()))
+          {watchList
+          .filter(movie=>{
+            if(currGenre==='All genres'){
+              return true;
+            }
+            else{
+              return currGenre===getGenreName(movie.genre_ids[0])
+            }
+          })
+          .filter((movie)=>movie.title.toLowerCase().includes(searchedStr.toLowerCase()))
           .map((movie) => (
             <tr className="hover:bg-gray-50" key={movie.id}>
               <td className="flex items-center px-6 py-4 font-normal text-gray-900">
